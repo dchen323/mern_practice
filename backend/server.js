@@ -34,10 +34,10 @@ router.get('/comments', (req, res) => {
 
 router.post('/comments', (req, res) => {
   const comment = new Comment();
-  //body parser lets us use the req.body
+  // body parser lets us use the req.body
   const { author, text } = req.body;
   if (!author || !text) {
-    //throw an error
+    // we should throw an error. we can do this check on the front end
     return res.json({
       success: false,
       error: 'You must provide an author and comment'
@@ -46,10 +46,11 @@ router.post('/comments', (req, res) => {
   comment.author = author;
   comment.text = text;
   comment.save(err => {
-    if(err) return res.json({ sucess: false, error: err });
-    return res.json({ success: true});
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
   });
 });
+
 
 // Use our router configuration when we call /api
 app.use('/api', router);
