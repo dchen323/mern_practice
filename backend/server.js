@@ -25,9 +25,6 @@ router.get('/', (req, res) => {
   res.json({ message: 'Hello, World!' });
 });
 
-// Use our router configuration when we call /api
-app.use('/api', router);
-
 router.get('/comments', (req, res) => {
   Comment.find((err,comments) => {
     if(err) return res.json({ sucess: false, error: err});
@@ -53,5 +50,8 @@ router.post('/comments', (req, res) => {
     return res.json({ success: true});
   });
 });
+
+// Use our router configuration when we call /api
+app.use('/api', router);
 
 app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
