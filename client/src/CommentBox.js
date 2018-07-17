@@ -51,12 +51,12 @@ class CommentBox extends Component {
 
   submitComment(e){
     e.preventDefault();
-    const { author, comment } = this.state;
-    if(!author || !comment) return;
+    const { author, text } = this.state;
+    if(!author || !text) return;
     fetch('/api/comments', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json'},
-      body: JSON.stringify({ author, comment }),
+      body: JSON.stringify({ author, text}),
     }) .then(res => res.json()).then((res) => {
       if(!res.success) this.setState({error: res.error.message || res.error});
       else this.setState({ author: '', text: '', error: null});
