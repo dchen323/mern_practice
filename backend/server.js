@@ -28,4 +28,30 @@ router.get('/', (req, res) => {
 // Use our router configuration when we call /api
 app.use('/api', router);
 
+router.get('/comments', (req, res) => {
+  Comment.find((err,comments) => {
+    if(err) return res.json({ sucess: false, error: err});
+    return res.json({ sucess: true, data: comments});
+  });
+});
+
+router.post('/comments', (req, res) => {
+  const comment = new Comment();
+  //body parser lets us use the req.body
+  const { author, text } = req.body;
+  if (!author || !text) {
+    //throw an error
+    return res.json({
+      success: false,
+      error: 'You must provide an author and comment'
+    });
+  }
+  comment.author = author;
+  comment.text = text;
+  comment.save(err => {
+    if(err) return res.json({ sucess: false, error: err });
+    return res.json({ success: true});
+  });
+});
+
 app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
