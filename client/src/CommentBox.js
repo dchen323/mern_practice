@@ -130,7 +130,7 @@ class CommentBox extends Component {
          <h2>Comments:</h2>
          <CommentList data={this.state.data}
            handleDeleteComment={this.onDeleteComment}
-           hanldeUpdateComment={this.updateComment}/>
+           handleUpdateComment={this.updateComment}/>
        </div>
        <div className="form">
          <CommentForm
