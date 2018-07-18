@@ -20,6 +20,7 @@ class CommentBox extends Component {
     this.loadCommentsFromServer = this.loadCommentsFromServer.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
     this.submitComment = this.submitComment.bind(this);
+    this.onUpdateComment = this.onUpdateComment.bind(this);
   }
 
   componentDidMount() {
@@ -47,6 +48,29 @@ class CommentBox extends Component {
     const newState = this.state;
     newState[e.target.name] = e.target.value;
     this.setState(newState);
+  }
+
+  onUpdateComment(id){
+    const oldComment = this.state.data.find(c => c._id === id);
+    if(!oldComment) return;
+    this.setstate({
+      author: oldComment.author,
+      text: oldComment.text,
+      updateId: id
+    });
+  }
+
+  onDeleteComment(id){
+    const idx = this.state.data.findIndex(c => c._id === id);
+    const data = [
+      ...this.state.data.slice(0,idx),
+      ...this.state.data.slice(idx + 1)
+    ];
+    this.setState({ data });
+    fetch(`api/comments/${id}`, { method: 'DELETE'})
+    .then(res => res.json()).then(res => {
+      if(!res.success) this.setState({error: res.error});
+    });
   }
 
   submitComment(e){

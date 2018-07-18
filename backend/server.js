@@ -68,6 +68,17 @@ router.put('/comments/:commentId', (req, res) => {
   });
 });
 
+router.delete('/comments/:commentId', (req, res) => {
+  const { commentId } = req.params;
+  if(!commentId) {
+    return res.json({ success: false, error: "No comment id provided"});
+  }
+  Comment.remove({_id: commentId}, (error, comment) => {
+    if(error) return res.json({ success: false, error});
+    return res.json({ success: true});
+  });
+});
+
 
 // Use our router configuration when we call /api
 app.use('/api', router);
