@@ -11,6 +11,8 @@ const Comment = props => (
         <ReactMarkdown source={props.children} />
       </div>
       <div className="singleCommentButtons">
+        <a onClick={() => {props.handleUpdateComment(props.id);}}>Update</a>
+        <a onClick={() => {props.handleDeleteComment(props.id);}}>Delete</a>
       </div>
     </div>
   </div>
@@ -19,6 +21,9 @@ const Comment = props => (
 Comment.propTypes = {
   author: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  handleUpdateComment: PropTypes.func.isRequired,
+  handleDeleteComment: PropTypes.func.isRequired,
   timestamp: PropTypes.string.isRequired,
 };
 
